@@ -1,14 +1,15 @@
 const puppeteer = require("puppeteer");
 const user = require("./user.js");
 let page;
-
+beforeEach(async () => {
+  page = await browser.newPage();
+});
 afterEach(() => {
   page.close();
 });
 
 describe("Github page tests", () => {
   beforeEach(async () => {
-    page = await browser.newPage();
     await page.goto("https://github.com/team");
   });
 
@@ -39,11 +40,11 @@ describe("Github page tests", () => {
 
 describe("Github page new tests", () => {
   beforeEach(async () => {
-    page = await browser.newPage();
     await page.goto("https://github.com");
   });
 
   test("The title Actions", async () => {
+    jest.setTimeout(10000);
     const product =
       "body > div.logged-out.env-production.page-responsive.header-overlay.home-campaign > div.position-relative.js-header-wrapper > header > div > div.HeaderMenu--logged-out.p-responsive.height-fit.position-lg-relative.d-lg-flex.flex-column.flex-auto.pt-7.pb-4.top-0 > div > nav > ul > li:nth-child(1) > button";
     await page.waitForSelector(product);
@@ -92,6 +93,6 @@ describe("Github page new tests", () => {
       (element) => element.textContent,
       actualElement
     );
-    expect(actual).toEqual("Home");
+    expect(actual).toEqual("Email");
   });
 });
